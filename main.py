@@ -18,7 +18,6 @@ def root():
 
 @app.post("/recommend/")
 def yemek_onerisi(veri: KullaniciVerisi):
-    # Tahmin API'den öğünleri çek
     try:
         response = requests.get("https://fitplate-backend.onrender.com/last-3-meals/")
         response.raise_for_status()
@@ -36,10 +35,9 @@ def yemek_onerisi(veri: KullaniciVerisi):
     toplam = {"protein": 0, "karbonhidrat": 0, "yağ": 0}
     for ogun in ogun_listesi:
         for k in toplam:
-            toplam[k] += ogun[k]
+            toplam[k] += ogun["besin"][k]
 
     ortalama = {k: round(v / 3, 2) for k, v in toplam.items()}
-
     df = pd.DataFrame([{**ortalama, "diyet": veri.diyet}])
     tahmin = oneri_model.predict(df)[0]
     yemek = label_encoder.inverse_transform([tahmin])[0]
