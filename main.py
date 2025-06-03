@@ -20,7 +20,7 @@ def root():
 def yemek_onerisi(veri: KullaniciVerisi):
     # Tahmin API'den öğünleri çek
     try:
-        response = requests.get("https://https://fitplate-backend.onrender.com/last-3-meals/")
+        response = requests.get("https://fitplate-backend.onrender.com/last-3-meals/")
         response.raise_for_status()
         ogun_listesi = response.json()["ogunler"]
     except Exception as e:
